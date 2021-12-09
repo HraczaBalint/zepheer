@@ -1,0 +1,13 @@
+{
+    "name": "app/models",
+    "require": {
+        "slim/slim": "4.*",
+        "slim/psr7": "^1.5",
+        "illuminate/database": "^8.73"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\Models\\": "src/"
+        }
+    }
+}
