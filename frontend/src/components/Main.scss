@@ -1,17 +1,42 @@
-*{
-    box-sizing: border-box;
+@use 'variables' as var;
+
+body{
+    background-color: lightblue;
 }
 
 .encounters{
-    width: 400px;
-    height: 650px;
+    width: var.$encounters_width;
+    height: var.$encounters_height;
     border: 3px solid black;
     margin: 50px auto;
 }
 
+.pictures{
+    float: left;
+    width: var.$pictures_width;
+    height: var.$pictures_height;
+    background-color: green;
+}
+
 .buttons{
-    width: 100%;
-    height: 50px;
+    float: right;
+    width: var.$buttons_width;
+    height: var.$buttons_height;
     background-color: red;
 }
+
+.description{
+    float: right;
+    width: var.$description_width;
+    height: var.$description_height;
+}
+
+.picture{
+    img{
+        max-width: 100px;
+        max-height: 100px;
+    }
+}
+
+
 

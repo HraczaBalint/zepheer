@@ -1,14 +1,20 @@
+import React from 'react';
+import './Main.scss';
 import Encounters from './Encounters';
 import Profile from './Profile';
-import './Main.scss';
 
 
-export default function App() {
-  return (
-    <div className="App">
-      <Profile />
-      <Encounters />
-      
-    </div>
-  );
+export default class App extends React.Component{
+
+    render() {
+
+        return(
+        <>
+            <div className='app'>
+                <Encounters />
+                <Profile />
+            </div>
+        </>
+        )
+    }
 }
