@@ -7,13 +7,13 @@ export default class Buttons extends React.Component{
 
     render() {
 
-        const { user_id } = this.props;
+        const { user_id, on_click } = this.props;
 
         return(
         <>
             <div className='buttons'>
-                <Button text="Dislike" />
-                <Button text="Like" />
+                <Button on_click={on_click} text="Dislike" />
+                <Button on_click={on_click} text="Like" />
             </div>
         </>
         )
@@ -21,5 +21,6 @@ export default class Buttons extends React.Component{
 }
 
 Buttons.propTypes = {
-    user_id: PropTypes.number.isRequired,
+    user_id: PropTypes.string.isRequired,
+    on_click: PropTypes.func.isRequired,
 }

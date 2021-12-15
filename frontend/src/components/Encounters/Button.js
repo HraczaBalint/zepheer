@@ -6,11 +6,11 @@ export default class Button extends React.Component{
 
     render() {
 
-        const {text, type = "button"} = this.props;
+        const {text, type = "button", on_click} = this.props;
 
         return(
         <>
-            <button type={type}>{text}</button>
+            <button onClick={on_click} type={type}>{text}</button>
         </>
         )
     }
@@ -19,4 +19,5 @@ export default class Button extends React.Component{
 Button.propTypes = {
     text: PropTypes.string.isRequired,
     type: PropTypes.string,
+    on_click: PropTypes.func.isRequired,
 }
