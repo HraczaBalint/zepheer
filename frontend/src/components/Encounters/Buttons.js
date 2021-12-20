@@ -21,6 +21,6 @@ export default class Buttons extends React.Component{
 }
 
 Buttons.propTypes = {
-    user_id: PropTypes.string.isRequired,
+    user_id: PropTypes.number.isRequired,
     on_click: PropTypes.func.isRequired,
 }

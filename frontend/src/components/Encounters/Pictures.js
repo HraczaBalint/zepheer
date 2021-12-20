@@ -13,7 +13,7 @@ export default class Pictures extends React.Component{
             <div className='pictures'>
                 {
                     pictures.map((picture) => <Picture src={picture} />)
-                };
+                }
             </div>
         </>
         )

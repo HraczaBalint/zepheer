@@ -20,7 +20,7 @@ export default class Description extends React.Component{
 
 Description.propTypes = {
     user_name: PropTypes.string.isRequired,
-    user_age: PropTypes.string.isRequired,
+    user_age: PropTypes.number.isRequired,
     user_description: PropTypes.string.isRequired,
-    user_id: PropTypes.string.isRequired,
+    user_id: PropTypes.number.isRequired,
 }
