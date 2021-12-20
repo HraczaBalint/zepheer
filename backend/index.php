@@ -6,6 +6,7 @@ use Illuminate\Database\Capsule\Manager;
 use App\Models\Users;
 use App\Models\Encounters;
 use App\Models\Matches;
+use App\Models\Pictures;
 
 require __DIR__ . '/vendor/autoload.php';
 
@@ -243,6 +244,74 @@ $app->delete('/app/matches/{match_id}', function (Request $request, Response $re
     $users = Matches::find($args['match_id']);
     if($users === NULL){
         $output = json_encode(['error'=>'Nincs ilyen ID-val kapcsolat!']);
+        $response->getBody()->write($output);
+        return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withStatus(404);
+    }
+
+    $users->delete();
+    return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withStatus(204);
+});
+
+$app->get('/app/pictures', function (Request $request, Response $response, $args) {
+    $users = Pictures::all();
+    $output = $users->toJson();
+    $response->getBody()->write($output);
+    return $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withStatus(200);
+});
+
+$app->get('/app/pictures/{user_id}', function (Request $request, Response $response, $args) {
+    if(!is_numeric($args['user_id']) || $args['user_id'] <= 0){
+        $output = json_encode(['error'=>'Az ID-nek pozitív egész számnak kell lennie!']);
+        $response->getBody()->write($output);
+        return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withStatus(400);
+    }
+
+    $pictures = Pictures::where('user_id', $args['user_id'])->get();
+
+    if($pictures === NULL){
+        $output = json_encode(['error'=>'Nincs ilyen ID-val felhasználó!']);
+        $response->getBody()->write($output);
+        return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withStatus(404);
+    }
+
+    $response->getBody()->write($pictures->toJson());
+    return $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withStatus(200);
+});
+
+$app->post('/app/pictures', function (Request $request, Response $response, $args) {
+    $data = json_decode($request->getBody(), true);
+    $users = Pictures::Create($data);
+    $users->save();
+    $response->getBody()->write($users->toJson());
+        return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withStatus(201);
+});
+
+$app->delete('/app/pictures/{picture_id}', function (Request $request, Response $response, $args) {
+    if(!is_numeric($args['picture_id']) || $args['picture_id'] <= 0){
+        $output = json_encode(['error'=>'Az ID-nek pozitív egész számnak kell lennie!']);
+        $response->getBody()->write($output);
+        return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withStatus(400);
+    }
+
+    $users = Pictures::find($args['picture_id']);
+    if($users === NULL){
+        $output = json_encode(['error'=>'Nincs ilyen ID-val kép!']);
         $response->getBody()->write($output);
         return $response
             ->withHeader('Content-Type', 'application/json')

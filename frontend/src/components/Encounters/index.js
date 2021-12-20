@@ -42,7 +42,7 @@ export default class Encounters extends React.Component{
                         user_age: profil.user_age,
                         user_age_preference: profil.user_age_preference,
                         user_description: profil.user_description,
-                        pictures: [],
+                        pictures: ['asd.jpg', 'fgh.jpg', 'jkl.jpg'],
                     };
                 }),
                 loading: false,
