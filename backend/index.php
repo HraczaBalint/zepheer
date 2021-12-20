@@ -30,6 +30,14 @@ $dbManager->bootEloquent();
 
 $app->setBasePath('/zepheer/backend');
 
+$app->add(function ($request, $handler) {
+    $response = $handler->handle($request);
+    return $response
+        ->withHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
+        ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+        ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+});
+
 $app->get('/', function (Request $request, Response $response, $args) {
     $output = json_encode(['error'=>'Nincs jogosultságod az oldal megtekintéséhez.']);
     $response->getBody()->write($output);
