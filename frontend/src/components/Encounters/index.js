@@ -9,39 +9,54 @@ export default class Encounters extends React.Component{
         super(props);
 
         this.state = {
-            encounterProfiles: [
-                {
-                    user_id: 2,
-                    user_name: "Ági",
-                    user_password: "jelszo",
-                    user_email: "agi@gmail.com",
-                    user_gender: 0,
-                    user_gender_preference: 1,
-                    user_age: 22,
-                    user_age_preference: "22.156",
-                    user_description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                    pictures: ['asd.jpg', 'fgh.jpg', 'jkl.jpg'],
-                },
-                {
-                    user_id: 3,
-                    user_name: "Évi",
-                    user_password: "jelszo",
-                    user_email: "evi@gmail.com",
-                    user_gender: 0,
-                    user_gender_preference: 1,
-                    user_age: 25,
-                    user_age_preference: "30.555",
-                    user_description: "Nam libero justo laoreet sit amet cursus. Mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus et netus. Metus vulputate eu scelerisque felis imperdiet proin fermentum. Id eu nisl nunc mi ipsum faucibus vitae aliquet. Ut aliquam purus sit amet.",
-                    pictures: ['dsa.jpg', 'hgf.jpg'],
-                },
-            ],
+
+            errorMessage: null,
+            loading: true,
+
+            encounterProfiles: [],
 
             ep_index: 0,
         }
     }
 
+    loadData = async () => {
+        this.setState({
+            loading: true,
+            errorMessage: null,
+        });
+        try {
+            const response = await fetch('http://localhost/zepheer/backend/app/users');
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }
+            const encounterProfiles = await response.json();
+            this.setState({
+                encounterProfiles: encounterProfiles.map(profil => {
+                    return {
+                        user_id: profil.user_id,
+                        user_name: profil.user_name,
+                        user_password: profil.user_password,
+                        user_email: profil.user_email,
+                        user_gender: profil.user_gender,
+                        user_gender_preference: profil.user_gender_preference,
+                        user_age: profil.user_age,
+                        user_age_preference: profil.user_age_preference,
+                        user_description: profil.user_description,
+                        pictures: [],
+                    };
+                }),
+                loading: false,
+                errorMessage: null,
+            });
+        } catch (error) {
+            this.setState({
+                errorMessage: error.message
+            })
+        }
+    }
+
     componentDidMount() {
-        // Adatok lekérdezése
+        this.loadData();
     }
 
     handleButtonClick = () => {
@@ -51,6 +66,18 @@ export default class Encounters extends React.Component{
     };
 
     render() {
+
+        if (this.state.errorMessage) {
+            return <div className='error'>
+                { this.state.errorMessage }
+                <br/>
+                <button onClick={this.loadData}>Reload</button>
+            </div>
+        }
+
+        if (this.state.loading) {
+            return <div>Loading...</div>;
+        };
 
         const { encounterProfiles, ep_index } = this.state;
 
