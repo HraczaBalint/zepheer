@@ -65,13 +65,14 @@ export default class Encounters extends React.Component{
 
         const { encounterProfiles, ep_index } = this.state;
 
-        const newRating = {
-            user_id: 1,
-            user_id_rated: encounterProfiles[ep_index].user_id,
-            rating: 1,
-        }
-
         try {
+
+            const newRating = {
+                user_id: 1,
+                user_id_rated: encounterProfiles[ep_index].user_id,
+                rating: 1,
+            }
+
             const response = await fetch('http://localhost/zepheer/backend/app/encounters', {
             method: 'POST',
             headers: {
@@ -86,9 +87,19 @@ export default class Encounters extends React.Component{
             })
         }
 
-        this.setState({
-            ep_index: this.state.ep_index + 1,
-        });
+        if (ep_index < encounterProfiles.length - 1) {
+            
+            this.setState({
+                ep_index: this.state.ep_index + 1,
+            });
+        }
+        else{
+            this.setState({
+                errorMessage: "That's it for now!"
+            })
+        }
+        
+        
     };
 
     render() {
