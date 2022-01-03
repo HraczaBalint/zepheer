@@ -25,11 +25,13 @@ export default class Encounters extends React.Component{
             errorMessage: null,
         });
         try {
-            const response = await fetch('http://localhost/zepheer/backend/app/users');
-            if (!response.ok) {
-                throw Error(response.statusText);
+            const user_data = await fetch('http://localhost/zepheer/backend/app/users');
+            const user_pictures = await fetch('http://localhost/zepheer/backend/app/pictures');
+
+            if (!user_data.ok) {
+                throw Error(user_data.statusText);
             }
-            const encounterProfiles = await response.json();
+            const encounterProfiles = await user_data.json();
             this.setState({
                 encounterProfiles: encounterProfiles.map(profil => {
                     return {
@@ -59,7 +61,31 @@ export default class Encounters extends React.Component{
         this.loadData();
     }
 
-    handleButtonClick = () => {
+    handleButtonClick = async () => {
+
+        const { encounterProfiles, ep_index } = this.state;
+
+        const newRating = {
+            user_id: 1,
+            user_id_rated: encounterProfiles[ep_index].user_id,
+            rating: 1,
+        }
+
+        try {
+            const response = await fetch('http://localhost/zepheer/backend/app/encounters', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newRating)
+            });
+            
+        } catch (error) {
+            this.setState({
+                errorMessage: error.message
+            })
+        }
+
         this.setState({
             ep_index: this.state.ep_index + 1,
         });
