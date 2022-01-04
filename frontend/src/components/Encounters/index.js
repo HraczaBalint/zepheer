@@ -12,6 +12,7 @@ export default class Encounters extends React.Component{
 
             errorMessage: null,
             loading: true,
+            rating: null,
 
             encounterProfiles: [],
 
@@ -23,6 +24,7 @@ export default class Encounters extends React.Component{
         this.setState({
             loading: true,
             errorMessage: null,
+            ep_index: 0,
         });
         try {
             const user_data = await fetch('http://localhost/zepheer/backend/app/users');
@@ -106,18 +108,29 @@ export default class Encounters extends React.Component{
         const { encounterProfiles, ep_index, loading, errorMessage } = this.state;
 
         if (errorMessage) {
-            return <div className='error'>
-                { this.state.errorMessage }
-                <br/>
-                <button onClick={this.loadData}>Reload</button>
-            </div>
+            return( 
+            <>
+                <div className='encounters'>
+                    <div className='error'>
+                        <p><h3>{ this.state.errorMessage }</h3></p>
+                        <button onClick={this.loadData}>Reload</button>
+                    </div>
+                </div>
+            </>
+            )
         }
 
         if (loading) {
-            return <div>Loading...</div>;
+            return( 
+                <>
+                    <div className='encounters'>
+                        <div className='loading'>
+                            <h3>Loading...</h3>
+                        </div>
+                    </div>
+                </>
+                )
         };
-
-
 
         return(
         <>
