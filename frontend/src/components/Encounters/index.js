@@ -26,7 +26,7 @@ export default class Encounters extends React.Component{
         });
         try {
             const user_data = await fetch('http://localhost/zepheer/backend/app/users');
-            const user_pictures = await fetch('http://localhost/zepheer/backend/app/pictures');
+            //const user_pictures = await fetch('http://localhost/zepheer/backend/app/pictures');
 
             if (!user_data.ok) {
                 throw Error(user_data.statusText);
@@ -61,7 +61,7 @@ export default class Encounters extends React.Component{
         this.loadData();
     }
 
-    handleButtonClick = async () => {
+    handleButtonClick = async (rating) => {
 
         const { encounterProfiles, ep_index } = this.state;
 
@@ -70,7 +70,7 @@ export default class Encounters extends React.Component{
             const newRating = {
                 user_id: 1,
                 user_id_rated: encounterProfiles[ep_index].user_id,
-                rating: 1,
+                rating: rating,
             }
 
             const response = await fetch('http://localhost/zepheer/backend/app/encounters', {
@@ -80,31 +80,32 @@ export default class Encounters extends React.Component{
             },
             body: JSON.stringify(newRating)
             });
+
+            if (response.ok) {
+                if (ep_index < encounterProfiles.length - 1) {
             
+                    this.setState({
+                        ep_index: this.state.ep_index + 1,
+                    });
+                }
+                else{
+                    this.setState({
+                        errorMessage: "That was everyone!"
+                    })
+                }
+            }
         } catch (error) {
             this.setState({
                 errorMessage: error.message
             })
         }
-
-        if (ep_index < encounterProfiles.length - 1) {
-            
-            this.setState({
-                ep_index: this.state.ep_index + 1,
-            });
-        }
-        else{
-            this.setState({
-                errorMessage: "That's it for now!"
-            })
-        }
-        
-        
     };
 
     render() {
 
-        if (this.state.errorMessage) {
+        const { encounterProfiles, ep_index, loading, errorMessage } = this.state;
+
+        if (errorMessage) {
             return <div className='error'>
                 { this.state.errorMessage }
                 <br/>
@@ -112,11 +113,11 @@ export default class Encounters extends React.Component{
             </div>
         }
 
-        if (this.state.loading) {
+        if (loading) {
             return <div>Loading...</div>;
         };
 
-        const { encounterProfiles, ep_index } = this.state;
+
 
         return(
         <>
@@ -125,13 +126,11 @@ export default class Encounters extends React.Component{
                     user_name={encounterProfiles[ep_index].user_name}
                     user_age={encounterProfiles[ep_index].user_age}
                     user_description={encounterProfiles[ep_index].user_description}
-                    user_id={encounterProfiles[ep_index].user_id}
                 />
                 <Pictures 
                     pictures={encounterProfiles[ep_index].pictures}
                 />
                 <Buttons
-                    user_id={encounterProfiles[ep_index].user_id}
                     on_click={this.handleButtonClick}
                 />
             </div>

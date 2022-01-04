@@ -4,13 +4,20 @@ import PropTypes from 'prop-types';
 
 export default class Button extends React.Component{
 
+    newRating = () => {
+        
+        const { on_click, value } = this.props;
+
+        on_click(value);
+    }
+
     render() {
 
-        const {text, type = "button", on_click} = this.props;
+        const {text, type = "button"} = this.props;
 
         return(
         <>
-            <button onClick={on_click} type={type}>{text}</button>
+            <button onClick={this.newRating} type={type}>{text}</button>
         </>
         )
     }
