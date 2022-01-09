@@ -8,11 +8,13 @@ export default class Pictures extends React.Component{
 
         const { pictures } = this.props;
 
+        const pictures_splited =  pictures[0].split(',');
+
         return(
         <>
             <div className='pictures'>
                 {
-                    pictures.map((picture) => <Picture src={picture} />)
+                    pictures_splited.map((picture) => <Picture src={picture} />)
                 }
             </div>
         </>

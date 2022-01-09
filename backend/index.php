@@ -52,7 +52,10 @@ $app->get('/', function (Request $request, Response $response, $args) {
 });
 
 $app->get('/app/users', function (Request $request, Response $response, $args) {
-    $users = Users::all();
+    $users = Users::Join('pictures','pictures.user_id','=','users.user_id')
+    ->select('users.user_id','users.user_name','users.user_age','users.user_description',Users::raw("GROUP_CONCAT(pictures.picture_name SEPARATOR ',') AS picture_name"))
+    ->groupBy('users.user_id')
+    ->get();
     $output = $users->toJson();
     $response->getBody()->write($output);
     return $response

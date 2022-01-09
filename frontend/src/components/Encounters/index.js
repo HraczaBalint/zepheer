@@ -28,25 +28,21 @@ export default class Encounters extends React.Component{
         });
         try {
             const user_data = await fetch('http://localhost/zepheer/backend/app/users');
-            //const user_pictures = await fetch('http://localhost/zepheer/backend/app/pictures');
 
             if (!user_data.ok) {
                 throw Error(user_data.statusText);
             }
             const encounterProfiles = await user_data.json();
+
+            console.log(encounterProfiles);
             this.setState({
                 encounterProfiles: encounterProfiles.map(profil => {
                     return {
                         user_id: profil.user_id,
                         user_name: profil.user_name,
-                        user_password: profil.user_password,
-                        user_email: profil.user_email,
-                        user_gender: profil.user_gender,
-                        user_gender_preference: profil.user_gender_preference,
                         user_age: profil.user_age,
-                        user_age_preference: profil.user_age_preference,
                         user_description: profil.user_description,
-                        pictures: ['asd.jpg', 'fgh.jpg', 'jkl.jpg'],
+                        pictures: [profil.picture_name],
                     };
                 }),
                 loading: false,
