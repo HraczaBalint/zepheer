@@ -1,7 +1,8 @@
 import React from 'react';
-import Buttons from './Buttons';
-import Description from './Description';
-import Pictures from './Pictures';
+import Pictures from '../Pictures';
+import Buttons from '../Buttons';
+import Description from '../Description';
+
 
 export default class Encounters extends React.Component{
 
@@ -34,7 +35,6 @@ export default class Encounters extends React.Component{
             }
             const encounterProfiles = await user_data.json();
 
-            console.log(encounterProfiles);
             this.setState({
                 encounterProfiles: encounterProfiles.map(profil => {
                     return {
@@ -136,7 +136,7 @@ export default class Encounters extends React.Component{
                     user_age={encounterProfiles[ep_index].user_age}
                     user_description={encounterProfiles[ep_index].user_description}
                 />
-                <Pictures 
+                <Pictures
                     pictures={encounterProfiles[ep_index].pictures}
                 />
                 <Buttons

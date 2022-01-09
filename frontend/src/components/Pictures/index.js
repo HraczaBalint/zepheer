@@ -1,5 +1,5 @@
 import React from 'react';
-import Picture from './Picture';
+import Picture from '../Picture';
 import PropTypes from 'prop-types';
 
 export default class Pictures extends React.Component{
@@ -8,13 +8,13 @@ export default class Pictures extends React.Component{
 
         const { pictures } = this.props;
 
-        const pictures_splited =  pictures[0].split(',');
+        const pictures_splitted =  pictures[0].split(',');
 
         return(
         <>
             <div className='pictures'>
                 {
-                    pictures_splited.map((picture) => <Picture src={picture} />)
+                    pictures_splitted.map((picture) => <Picture src={picture} />)
                 }
             </div>
         </>
