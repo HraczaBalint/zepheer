@@ -32,7 +32,7 @@ export default class Encounters extends React.Component{
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer 65b09b151d4379a5ac8de26c02f51a31688e96e150ebc831f3e6a0a62ade4759428881636c625b85222181176e7be5d10b9f704d09bc6fee7ad13fce55a9d697',
-                }
+                },
                 });
 
             if (!user_data.ok) {
