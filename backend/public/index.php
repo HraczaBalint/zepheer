@@ -3,12 +3,11 @@
 use Slim\Factory\AppFactory;
 use Illuminate\Database\Capsule\Manager;
 
-
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 $app = AppFactory::create();
 
-$config = require __DIR__ . '/src/config.php';
+$config = require __DIR__ . '/../src/config.php';
 
 $dbManager = new Manager();
 $dbManager->addConnection([
@@ -25,9 +24,7 @@ $dbManager->addConnection([
 $dbManager->setAsGlobal();
 $dbManager->bootEloquent();
 
-$app->setBasePath('/zepheer/backend');
-
-$routes = require './src/routes.php';
+$routes = require '../src/routes.php';
 $routes($app);
 
 $app->run();
