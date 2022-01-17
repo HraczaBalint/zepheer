@@ -2,9 +2,12 @@ import React from 'react';
 import Pictures from '../Pictures';
 import Buttons from '../Buttons';
 import Description from '../Description';
+import { ApiContext } from '../../api/api';
 
 
 export default class Encounters extends React.Component{
+
+    static contextType = ApiContext;
 
     constructor(props) {
         super(props);
@@ -28,34 +31,24 @@ export default class Encounters extends React.Component{
             ep_index: 0,
         });
         try {
-            const user_data = await fetch('http://localhost:8080/api/users', {
-                method: 'GET',
-                headers: {
-                    'Authorization': 'Bearer 65b09b151d4379a5ac8de26c02f51a31688e96e150ebc831f3e6a0a62ade4759428881636c625b85222181176e7be5d10b9f704d09bc6fee7ad13fce55a9d697',
-                },
+            this.context.getUsers().then(encounterProfiles => {
+                this.setState({
+                    encounterProfiles: encounterProfiles.map(profile => {
+                        return {
+                            user_id: profile.user_id,
+                            user_name: profile.user_name,
+                            user_age: profile.user_age,
+                            user_description: profile.user_description,
+                            pictures: [profile.picture_name],
+                        };
+                    }),
+                    loading: false,
+                    errorMessage: null,
                 });
-
-            if (!user_data.ok) {
-                throw Error(user_data.statusText);
-            }
-            const encounterProfiles = await user_data.json();
-
-            this.setState({
-                encounterProfiles: encounterProfiles.map(profil => {
-                    return {
-                        user_id: profil.user_id,
-                        user_name: profil.user_name,
-                        user_age: profil.user_age,
-                        user_description: profil.user_description,
-                        pictures: [profil.picture_name],
-                    };
-                }),
-                loading: false,
-                errorMessage: null,
             });
         } catch (error) {
             this.setState({
-                errorMessage: error.message
+                errorMessage: error.message,
             })
         }
     }
