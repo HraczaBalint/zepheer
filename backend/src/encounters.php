@@ -8,5 +8,5 @@ class Encounters extends Model{
     protected $table = 'encounters';
     protected $primaryKey = 'encounter_id';
     public $timestamps = false;
-    protected $guarded = ['user_id'];
+    protected $fillable = ['user_id', 'user_id_rated', 'rating'];
 }

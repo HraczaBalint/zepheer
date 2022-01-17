@@ -8,5 +8,5 @@ class Matches extends Model{
     protected $table = 'matches';
     protected $primaryKey = 'match_id';
     public $timestamps = false;
-    protected $guarded = ['match_id'];
+    protected $fillable = ['user_id', 'user_id_matched'];
 }

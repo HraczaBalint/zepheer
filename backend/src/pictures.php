@@ -8,5 +8,5 @@ class Pictures extends Model{
     protected $table = 'pictures';
     protected $primaryKey = 'picture_id';
     public $timestamps = false;
-    protected $guarded = ['picture_id'];
+    protected $fillable = ['picture_name', 'user_id'];
 }
