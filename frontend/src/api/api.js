@@ -12,6 +12,7 @@ export class ApiProvider extends React.Component{
         this.state = {
             apiKey: '65b09b151d4379a5ac8de26c02f51a31688e96e150ebc831f3e6a0a62ade4759428881636c625b85222181176e7be5d10b9f704d09bc6fee7ad13fce55a9d697',
             getUsers: this.getUsers,
+            postUserRating: this.postUserRating,
         }        
     }
 
@@ -22,12 +23,28 @@ export class ApiProvider extends React.Component{
                 'Authorization': `Bearer ${this.state.apiKey}` ,
             },
         });
+
         if (!response.ok) {
             throw Error(response.statusText);
         }
         const data = await response.json();
 
         return data;
+    }
+
+    postUserRating = async (newRating) => {
+        const response = await fetch('http://localhost:8080/api/encounters', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.state.apiKey}`,
+            },
+            body: JSON.stringify(newRating)
+        });
+
+        if (!response.ok) {
+            throw Error(response.statusText);
+        }
     }
 
     render() {

@@ -16,10 +16,9 @@ export default class Encounters extends React.Component{
 
             errorMessage: null,
             loading: true,
+
             rating: null,
-
             encounterProfiles: [],
-
             ep_index: 0,
         }
     }
@@ -62,34 +61,24 @@ export default class Encounters extends React.Component{
         const { encounterProfiles, ep_index } = this.state;
 
         try {
-
             const newRating = {
                 user_id: 1,
                 user_id_rated: encounterProfiles[ep_index].user_id,
                 rating: rating,
             }
 
-            const response = await fetch('http://localhost:8080/api/encounters', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer 65b09b151d4379a5ac8de26c02f51a31688e96e150ebc831f3e6a0a62ade4759428881636c625b85222181176e7be5d10b9f704d09bc6fee7ad13fce55a9d697',
-            },
-            body: JSON.stringify(newRating)
-            });
+            this.context.postUserRating(newRating);
 
-            if (response.ok) {
-                if (ep_index < encounterProfiles.length - 1) {
+            if (ep_index < encounterProfiles.length - 1) {
             
-                    this.setState({
-                        ep_index: this.state.ep_index + 1,
-                    });
-                }
-                else{
-                    this.setState({
-                        errorMessage: "That was everyone!"
-                    })
-                }
+                this.setState({
+                    ep_index: this.state.ep_index + 1,
+                });
+            }
+            else{
+                this.setState({
+                    errorMessage: "That was everyone!"
+                })
             }
         } catch (error) {
             this.setState({
