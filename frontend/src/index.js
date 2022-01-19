@@ -3,12 +3,15 @@ import ReactDOM from 'react-dom';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 import { ApiProvider } from './api/api';
+import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ApiProvider>
-      <App />
-    </ApiProvider>
+    <BrowserRouter>
+      <ApiProvider>
+        <App />
+      </ApiProvider>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
