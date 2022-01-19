@@ -1,7 +1,9 @@
 @use 'variables' as var;
+@import 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap';
 
 body{
     background-color: lightblue;
+    font-family: 'Roboto', sans-serif;
 }
 
 .encounters{
