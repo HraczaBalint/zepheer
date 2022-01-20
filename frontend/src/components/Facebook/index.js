@@ -35,7 +35,7 @@ export default class Facebook extends React.Component {
                     <div>
                         <FacebookLogin
                             appId="470923207936372"
-                            autoLoad={true}
+                            autoLoad={false}
                             fields="first_name, email, picture, gender"
                             scope="public_profile, email"
                             callback={this.responseFacebook}
