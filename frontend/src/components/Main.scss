@@ -2,7 +2,6 @@
 @import 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap';
 
 body{
-    background-color: lightblue;
     font-family: 'Roboto', sans-serif;
 }
 
@@ -58,5 +57,37 @@ body{
     transform: translate(-50%, -50%);
 }
 
+.starter_wrapper{
+    width: 70%;
+    margin: 0 auto;
+}
+
+.modal{
+    position: absolute;
+    width: 200px;
+    height: 300px;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%);
+    background-color: steelblue;
+}
+
+.modal_wrapper{
+    width: 50%;
+    height: 75vh;
+    text-align: center;
+    float: left;
+}
+
+.modal_opener{
+    width: 200px;
+    font-size: 150%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%);
+    padding: 20px;
+    border-radius: 14px;
+    background-color: steelblue;
+}
 
 

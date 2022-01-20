@@ -3,20 +3,20 @@ import ReactModal from "react-modal";
 
 export default class ModalWindow extends React.Component {
     constructor () {
-      super();
-      this.state = {
-        showModal: false,
-        handleOpenModal: this.handleOpenModal,
-        handleCloseModal: this.handleCloseModal,
-      };
+        super();
+        this.state = {
+            showModal: false,
+            handleOpenModal: this.handleOpenModal,
+            handleCloseModal: this.handleCloseModal,
+        };
     }
     
     handleOpenModal = () => {
-      this.setState({ showModal: true });
+        this.setState({ showModal: true });
     }
     
     handleCloseModal = () => {
-      this.setState({ showModal: false });
+        this.setState({ showModal: false });
     }
 
     componentDidMount() {
@@ -26,13 +26,12 @@ export default class ModalWindow extends React.Component {
     render () {
         return (
             <>
-                <div>
-                    <button onClick={this.handleOpenModal}>Open modal</button>
+                <div className="modal_wrapper">
+                    <button className="modal_opener" onClick={this.handleOpenModal}>{this.props.name}</button>
                     <ReactModal 
                         isOpen={this.state.showModal}
-                        contentLabel="onRequestClose Example"
                         onRequestClose={this.handleCloseModal}
-                        className="Modal"
+                        className="modal"
                     >
                     <div>
                         <button onClick={this.handleCloseModal}>x</button>
