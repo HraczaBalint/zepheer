@@ -1,12 +1,13 @@
 import React from "react";
-import Modal from "react-modal/lib/components/Modal";
+import ModalWindow from "../ModalWindow";
+
 
 export default class Starter extends React.Component{
 
     render() {
         return(
             <>
-                <Modal />
+                <ModalWindow />
             </>
         )
     }
