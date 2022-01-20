@@ -15,8 +15,8 @@ export default class Starter extends React.Component{
         return(
             <>
                 <div className="starter_wrapper">
-                    <ModalWindow name={"Login"} />
-                    <ModalWindow name={"Register"} />
+                    <ModalWindow name={"Sign in"} />
+                    <ModalWindow name={"Join"} />
                 </div>
             </>
         )

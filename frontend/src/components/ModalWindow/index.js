@@ -1,5 +1,6 @@
 import React from "react";
 import ReactModal from "react-modal";
+import Facebook from "../Facebook";
 
 export default class ModalWindow extends React.Component {
     constructor () {
@@ -35,7 +36,7 @@ export default class ModalWindow extends React.Component {
                     >
                     <div>
                         <button onClick={this.handleCloseModal}>x</button>
-                        
+                        <Facebook />
                     </div>
                     </ReactModal>
                 </div>
