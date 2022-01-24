@@ -58,7 +58,13 @@ return function(App $app){
 
         $token->save();
         $response->getBody()->write(json_encode([
-            "user_email" => $users->user_email,
+            "user_id" => $users->user_id,
+            "user_name" => $users->user_name,
+            "user_gender" => $users->user_gender,
+            "user_gender_preference" => $users->user_gender_preference,
+            "user_age" => $users->user_age,
+            "user_age_preference" => $users->user_age_preference,
+            "user_description" => $users->user_description,
             "token" => $token->token,
         ]));
         return $response->withHeader('Content-Type', 'application/json')

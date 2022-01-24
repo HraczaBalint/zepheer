@@ -29,14 +29,9 @@ export default class LoginForm extends React.Component {
             errorMessage: null,
         })
 
-        try {
-            this.context.login(email, password);
-
-        } catch (error) {
-            this.setState({
-                errorMessage: "Incorrect email or password",
-            })
-        }
+        this.context.login(email, password).then(data => {
+            console.log(data);
+        });
     }
     
     render() {
