@@ -23,7 +23,7 @@ export default class Encounters extends React.Component{
         }
     }
 
-    loadData = async () => {
+    loadAllUsers = async () => {
         this.setState({
             loading: true,
             errorMessage: null,
@@ -53,10 +53,10 @@ export default class Encounters extends React.Component{
     }
 
     componentDidMount() {
-        this.loadData();
+        this.loadAllUsers();
     }
 
-    handleButtonClick = async (rating) => {
+    handleNewRating = async (rating) => {
 
         const { encounterProfiles, ep_index } = this.state;
 
@@ -82,7 +82,7 @@ export default class Encounters extends React.Component{
             }
         } catch (error) {
             this.setState({
-                errorMessage: error.message
+                errorMessage: error.message,
             })
         }
     };
@@ -97,7 +97,7 @@ export default class Encounters extends React.Component{
                 <div className='encounters'>
                     <div className='error'>
                         <p><h3>{ this.state.errorMessage }</h3></p>
-                        <button onClick={this.loadData}>Reload</button>
+                        <button onClick={this.loadAllUsers}>Reload</button>
                     </div>
                 </div>
             </>
@@ -128,7 +128,7 @@ export default class Encounters extends React.Component{
                     pictures={encounterProfiles[ep_index].pictures}
                 />
                 <Buttons
-                    on_click={this.handleButtonClick}
+                    on_click={this.handleNewRating}
                 />
             </div>
         </>

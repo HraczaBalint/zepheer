@@ -18,8 +18,8 @@ export default class Starter extends React.Component{
         return(
             <>
                 <div className="starter_wrapper">
-                    <ModalWindow name={"Sign in"} facebook={<Facebook />} form={<RegisterForm />} />
-                    <ModalWindow name={"Join"} facebook={<Facebook />} form={<LoginForm />} />
+                    <ModalWindow name={"Sign in"} facebook={<Facebook />} form={<LoginForm />} />
+                    <ModalWindow name={"Join"} facebook={<Facebook />} form={<RegisterForm />} />
                 </div>
             </>
         )

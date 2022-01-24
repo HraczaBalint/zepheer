@@ -2,7 +2,10 @@ import React from "react";
 
 export const ApiContext = React.createContext({
     apiToken: null,
+    login: (user_email, user_password) => {},
     getUsers: () => {},
+    postUserRating: () => {},
+
 });
 
 export class ApiProvider extends React.Component{
@@ -10,22 +13,49 @@ export class ApiProvider extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            apiKey: '65b09b151d4379a5ac8de26c02f51a31688e96e150ebc831f3e6a0a62ade4759428881636c625b85222181176e7be5d10b9f704d09bc6fee7ad13fce55a9d697',
+            apiToken: '',
+            fetchApi: this.fetchApi,
+            login: this.login,
             getUsers: this.getUsers,
             postUserRating: this.postUserRating,
         }        
     }
 
-    getUsers = async () => {
-        const response = await fetch('http://localhost:8080/api/users', {
-            method: 'GET',
+    fetchApi(endpoint, method = 'GET', data = null) {
+
+        return fetch(`${this.props.serverAddress}${endpoint}`, {
+            method,
             headers: {
-                'Authorization': `Bearer ${this.state.apiKey}` ,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': this.state.apiToken ? `Bearer ${this.state.apiToken}` : null,
             },
+            body: data ? JSON.stringify(data) : null,
         });
+    }
+
+    login = async ( user_email, user_password ) => {
+
+        const response = await this.fetchApi('/login', 'POST', { user_email, user_password });
 
         if (!response.ok) {
-            throw Error(response.statusText);
+            throw new Error(response.statusText);
+        }
+        const data = await response.json();
+
+        console.log(data);
+
+        this.setState({
+            apiToken: data.token,
+        });
+    }   
+
+    getUsers = async () => {
+
+        const response = await this.fetchApi('/api/users', 'GET', null);
+
+        if (!response.ok) {
+            throw new Error(response.statusText);
         }
         const data = await response.json();
 
@@ -33,14 +63,8 @@ export class ApiProvider extends React.Component{
     }
 
     postUserRating = async (newRating) => {
-        const response = await fetch('http://localhost:8080/api/encounters', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.state.apiKey}`,
-            },
-            body: JSON.stringify(newRating)
-        });
+
+        const response = await this.fetchApi('/api/encounters', 'POST', newRating);
 
         if (!response.ok) {
             throw Error(response.statusText);

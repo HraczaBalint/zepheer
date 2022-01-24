@@ -1,6 +1,10 @@
 import React from "react";
+import { ApiContext } from '../../../api/api';
 
 export default class LoginForm extends React.Component {
+
+    static contextType = ApiContext;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -8,6 +12,7 @@ export default class LoginForm extends React.Component {
             password: '',
             handleChange: this.handleChange,
             handleSubmit: this.handleSubmit,
+            errorMessage: null,
         };
     }
     
@@ -16,32 +21,46 @@ export default class LoginForm extends React.Component {
         this.setState({[name]: value});
     }
     
-    handleSubmit = (e) => {
+    handleLogin = () => {
 
         const { email, password } = this.state;
 
-        const newUser = {
-            email: email,
-            password: password,
-        }
-        JSON.stringify(newUser);
+        this.setState({
+            errorMessage: null,
+        })
 
-        console.log(newUser);
-        e.preventDefault();
+        try {
+            this.context.login(email, password);
+
+        } catch (error) {
+            this.setState({
+                errorMessage: "Incorrect email or password",
+            })
+        }
     }
     
     render() {
 
-        const { email, password } = this.state;
+        const { email, password, errorMessage } = this.state;
+
+        if (errorMessage) {
+            return( 
+            <>
+                <div className='error'>
+                    <p><h3>{ this.state.errorMessage }</h3></p>
+                </div>
+            </>
+            )
+        }
 
         return (
-          <form onSubmit={this.handleSubmit}>
-            <label>Email</label><br />
-            <input name="email" type="email" value={email} onChange={this.handleChange} required />
-            <label>Password</label><br />
-            <input name="password" type="password" value={password} onChange={this.handleChange} required />
-            <button type="submit">Submit</button>
-          </form>
+            <>
+                <label>Email</label><br />
+                <input name="email" type="email" value={email} onChange={this.handleChange} required />
+                <label>Password</label><br />
+                <input name="password" type="password" value={password} onChange={this.handleChange} required />
+                <button type="button" onClick={this.handleLogin}>Submit</button>
+            </>
         );
     }
 }

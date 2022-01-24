@@ -8,7 +8,7 @@ import { BrowserRouter } from 'react-router-dom';
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <ApiProvider>
+      <ApiProvider serverAddress={"http://localhost:8080"}>
         <App />
       </ApiProvider>
     </BrowserRouter>
