@@ -37,7 +37,7 @@ return function(App $app){
         $userData = json_decode($request->getBody(), true);
         $users = new Users();
         $users->user_email = $userData['user_email'];
-        $users->user_password = password_hash($userData['user_password'], PASSWORD_DEFAULT);
+        $users->user_password = md5($userData['user_password']);
         $users->save();
         $response->getBody()->write($users->toJson());
         return $response->withHeader('Content-Type', 'application/json')
@@ -49,8 +49,10 @@ return function(App $app){
         $user_email = $loginData['user_email'];
         $user_password = $loginData['user_password'];
         $users = Users::where('user_email', $user_email)->firstOrFail();
-        if (!password_verify($user_password, $users->user_password)) {
-            throw new Exception('Hibás email vagy jelszó');
+        if (md5($user_password) !== $users->user_password) {
+            $response->getBody()->write(json_encode(["message" => "Invalid email or password!"]));
+            return $response->withHeader('Content-Type', 'application/json')
+                ->withStatus(200);
         }
         $token = new Token();
         $token->user_id = $users->user_id;

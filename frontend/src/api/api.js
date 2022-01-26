@@ -52,7 +52,7 @@ export class ApiProvider extends React.Component{
             return data;
 
         } catch (error) {
-            return error;
+            return error.message;
         }
     }   
 
