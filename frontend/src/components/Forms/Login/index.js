@@ -1,5 +1,6 @@
 import React from "react";
 import { ApiContext } from '../../../api/api';
+import NetworkErrorMessage from "../../Errors/NetworkErrorMessage";
 
 export default class LoginForm extends React.Component {
 
@@ -55,6 +56,7 @@ export default class LoginForm extends React.Component {
                 <label>Password</label><br />
                 <input name="password" type="password" value={password} onChange={this.handleChange} required />
                 <button type="button" onClick={this.handleLogin}>Submit</button>
+                <NetworkErrorMessage />
             </>
         );
     }

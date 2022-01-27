@@ -2,6 +2,7 @@ import React from "react";
 
 export const ApiContext = React.createContext({
     apiToken: null,
+    networkError: false,
     login: (user_email, user_password) => {},
     getUsers: () => {},
     postUserRating: () => {},
@@ -14,6 +15,7 @@ export class ApiProvider extends React.Component{
         super(props);
         this.state = {
             apiToken: '',
+            networkError: false,
             fetchApi: this.fetchApi,
             login: this.login,
             getUsers: this.getUsers,
@@ -21,39 +23,48 @@ export class ApiProvider extends React.Component{
         }        
     }
 
-    fetchApi(endpoint, method = 'GET', data = null) {
+    async fetchApi(endpoint, method = 'GET', data = null) {
 
-        return fetch(`${this.props.serverAddress}${endpoint}`, {
-            method,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': this.state.apiToken ? `Bearer ${this.state.apiToken}` : null,
-            },
-            body: data ? JSON.stringify(data) : null,
-        });
+        try {
+            const response = await fetch(`${this.props.serverAddress}${endpoint}`, {
+                method,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': this.state.apiToken ? `Bearer ${this.state.apiToken}` : null,
+                },
+                body: data ? JSON.stringify(data) : null,
+            });
+            this.setState({
+                networkError: false,
+            })
+            return response;
+        } catch (error) {
+            this.setState({
+                networkError: true,
+            })
+        }
     }
 
     login = async ( user_email, user_password ) => {
-
-        try {
             
-            const response = await this.fetchApi('/login', 'POST', { user_email, user_password });
+        const response = await this.fetchApi('/login', 'POST', { user_email, user_password });
 
-            if (!response.ok) {
-                throw new Error(response.statusText);
-            }
-            const data = await response.json();
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+        const data = await response.json();
 
+        if(data.message) {
+            throw new Error(data.message);
+        }
+        else{
             this.setState({
                 apiToken: data.token,
             });
-
-            return data;
-
-        } catch (error) {
-            return error.message;
         }
+
+        return data;
     }   
 
     getUsers = async () => {

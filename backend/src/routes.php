@@ -48,7 +48,17 @@ return function(App $app){
         $loginData = json_decode($request->getBody(), true);
         $user_email = $loginData['user_email'];
         $user_password = $loginData['user_password'];
-        $users = Users::where('user_email', $user_email)->firstOrFail();
+        
+
+        if (Users::where('user_email', $user_email)->count('user_email')) {
+            $users = Users::where('user_email', $user_email)->firstOrFail();
+        }
+        else{
+            $response->getBody()->write(json_encode(["message" => "Invalid email or password!"]));
+            return $response->withHeader('Content-Type', 'application/json')
+                ->withStatus(200);
+        }
+
         if (md5($user_password) !== $users->user_password) {
             $response->getBody()->write(json_encode(["message" => "Invalid email or password!"]));
             return $response->withHeader('Content-Type', 'application/json')
