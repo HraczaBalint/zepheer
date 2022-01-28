@@ -30,7 +30,7 @@ export default class Encounters extends React.Component{
             ep_index: 0,
         });
         try {
-            this.context.getUsers().then(encounterProfiles => {
+            await this.context.getUsers().then(encounterProfiles => {
                 this.setState({
                     encounterProfiles: encounterProfiles.map(profile => {
                         return {
@@ -67,7 +67,7 @@ export default class Encounters extends React.Component{
                 rating: rating,
             }
 
-            this.context.postUserRating(newRating);
+            await this.context.postUserRating(newRating);
 
             if (ep_index < encounterProfiles.length - 1) {
             

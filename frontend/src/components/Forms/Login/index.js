@@ -11,7 +11,7 @@ export default class LoginForm extends React.Component {
             email: '',
             password: '',
             handleChange: this.handleChange,
-            handleSubmit: this.handleSubmit,
+            handleLogin: this.handleLogin,
             loginErrorMessage: null,
         };
     }
@@ -28,11 +28,6 @@ export default class LoginForm extends React.Component {
         if (email.trim() !== "" && password.trim() !== "") {
             try {
                 await this.context.login(email, password);
-                this.setState({
-                    email: '',
-                    password: '',
-                    loginErrorMessage: null,
-                })
             } catch (error) {
                 this.setState({
                     loginErrorMessage: error.message,

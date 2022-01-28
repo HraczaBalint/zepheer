@@ -35,10 +35,18 @@ export class ApiProvider extends React.Component{
                 },
                 body: data ? JSON.stringify(data) : null,
             });
-            this.setState({
-                networkError: false,
-            })
-            return response;
+
+            if (response == null) {
+                this.setState({
+                    networkError: true,
+                })
+            }
+            else{
+                this.setState({
+                    networkError: false,
+                })
+                return response;
+            }
         } catch (error) {
             this.setState({
                 networkError: true,
@@ -60,7 +68,6 @@ export class ApiProvider extends React.Component{
         }
         else{
             const data = await response.json();
-    
             if(data.message) {
                 throw new Error(data.message);
             }
@@ -69,29 +76,40 @@ export class ApiProvider extends React.Component{
                     apiToken: data.token,
                 });
             }
-    
             return data;
         }
     }   
 
     getUsers = async () => {
 
-        const response = await this.fetchApi('/api/users', 'GET', null);
+        const response = await this.fetchApi('/api/usersss', 'GET', null);
 
-        if (!response.ok) {
+        if (response == null) {
+            this.setState({
+                networkError: true,
+            })
+            throw new Error();
+        }
+        else if(!response.ok){
             throw new Error(response.statusText);
         }
-        const data = await response.json();
-
-        return data;
+        else{
+            const data = await response.json();
+            return data;
+        }
     }
 
     postUserRating = async (newRating) => {
 
         const response = await this.fetchApi('/api/encounters', 'POST', newRating);
 
-        if (!response.ok) {
-            throw Error(response.statusText);
+        if (response == null) {
+            this.setState({
+                networkError: true,
+            })
+        }
+        else if(!response.ok){
+            throw new Error(response.statusText);
         }
     }
 
