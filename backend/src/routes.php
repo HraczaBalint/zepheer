@@ -48,7 +48,6 @@ return function(App $app){
         $loginData = json_decode($request->getBody(), true);
         $user_email = $loginData['user_email'];
         $user_password = $loginData['user_password'];
-        
 
         if (Users::where('user_email', $user_email)->count('user_email')) {
             $users = Users::where('user_email', $user_email)->firstOrFail();

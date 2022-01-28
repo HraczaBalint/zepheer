@@ -1,6 +1,5 @@
 import React from "react";
 import { ApiContext } from '../../../api/api';
-import NetworkErrorMessage from "../../Errors/NetworkErrorMessage";
 
 export default class LoginForm extends React.Component {
 
@@ -13,7 +12,7 @@ export default class LoginForm extends React.Component {
             password: '',
             handleChange: this.handleChange,
             handleSubmit: this.handleSubmit,
-            errorMessage: null,
+            loginErrorMessage: null,
         };
     }
     
@@ -22,32 +21,29 @@ export default class LoginForm extends React.Component {
         this.setState({[name]: value});
     }
     
-    handleLogin = () => {
+    handleLogin = async () => {
 
         const { email, password } = this.state;
 
-        this.setState({
-            errorMessage: null,
-        })
-
-        this.context.login(email, password).then(data => {
-            console.log(data);
-        });
+        if (email.trim() !== "" && password.trim() !== "") {
+            try {
+                await this.context.login(email, password);
+                this.setState({
+                    email: '',
+                    password: '',
+                    loginErrorMessage: null,
+                })
+            } catch (error) {
+                this.setState({
+                    loginErrorMessage: error.message,
+                })
+            }
+        }
     }
     
     render() {
 
-        const { email, password, errorMessage } = this.state;
-
-        if (errorMessage) {
-            return( 
-            <>
-                <div className='error'>
-                    <p><h3>{ this.state.errorMessage }</h3></p>
-                </div>
-            </>
-            )
-        }
+        const { email, password, loginErrorMessage } = this.state;
 
         return (
             <>
@@ -56,7 +52,7 @@ export default class LoginForm extends React.Component {
                 <label>Password</label><br />
                 <input name="password" type="password" value={password} onChange={this.handleChange} required />
                 <button type="button" onClick={this.handleLogin}>Submit</button>
-                <NetworkErrorMessage />
+                { loginErrorMessage ? <p>{ loginErrorMessage }</p> : null }
             </>
         );
     }

@@ -50,21 +50,28 @@ export class ApiProvider extends React.Component{
             
         const response = await this.fetchApi('/login', 'POST', { user_email, user_password });
 
-        if (!response.ok) {
+        if (response == null) {
+            this.setState({
+                networkError: true,
+            })
+        }
+        else if(!response.ok){
             throw new Error(response.statusText);
         }
-        const data = await response.json();
-
-        if(data.message) {
-            throw new Error(data.message);
-        }
         else{
-            this.setState({
-                apiToken: data.token,
-            });
+            const data = await response.json();
+    
+            if(data.message) {
+                throw new Error(data.message);
+            }
+            else{
+                this.setState({
+                    apiToken: data.token,
+                });
+            }
+    
+            return data;
         }
-
-        return data;
     }   
 
     getUsers = async () => {

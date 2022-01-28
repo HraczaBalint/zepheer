@@ -6,6 +6,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import Starter from './Starter';
 import LoginRequired from '../api/loginRequired';
 import LoginNotRequired from '../api/loginNotRequired';
+import NetworkErrorMessage from './Errors/NetworkErrorMessage';
 
 
 export default class App extends React.Component{
@@ -28,6 +29,8 @@ export default class App extends React.Component{
                     <Route path="*" element={<Navigate replace to="/get-started" />} />
                 </Routes>
             </LoginNotRequired>
+            
+            <NetworkErrorMessage />
         </>
         )
     }
