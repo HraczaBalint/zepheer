@@ -82,13 +82,13 @@ export class ApiProvider extends React.Component{
 
     getUsers = async () => {
 
-        const response = await this.fetchApi('/api/usersss', 'GET', null);
+        const response = await this.fetchApi('/api/users', 'GET', null);
 
         if (response == null) {
             this.setState({
                 networkError: true,
             })
-            throw new Error();
+            throw new Error("Network error");
         }
         else if(!response.ok){
             throw new Error(response.statusText);
