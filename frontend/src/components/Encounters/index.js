@@ -62,7 +62,7 @@ export default class Encounters extends React.Component{
 
         try {
             const newRating = {
-                user_id: 1,
+                user_id: this.context.userData.user_id,
                 user_id_rated: encounterProfiles[ep_index].user_id,
                 rating: rating,
             }
@@ -72,7 +72,7 @@ export default class Encounters extends React.Component{
             if (ep_index < encounterProfiles.length - 1) {
             
                 this.setState({
-                    ep_index: this.state.ep_index + 1,
+                    ep_index: ep_index + 1,
                 });
             }
             else{

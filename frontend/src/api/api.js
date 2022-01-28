@@ -2,6 +2,7 @@ import React from "react";
 
 export const ApiContext = React.createContext({
     apiToken: null,
+    userData: [],
     networkError: false,
     login: (user_email, user_password) => {},
     getUsers: () => {},
@@ -15,6 +16,7 @@ export class ApiProvider extends React.Component{
         super(props);
         this.state = {
             apiToken: '',
+            userData: [],
             networkError: false,
             fetchApi: this.fetchApi,
             login: this.login,
@@ -74,9 +76,9 @@ export class ApiProvider extends React.Component{
             else{
                 this.setState({
                     apiToken: data.token,
+                    userData: data,
                 });
             }
-            return data;
         }
     }   
 
