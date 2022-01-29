@@ -17,7 +17,8 @@ export class ApiProvider extends React.Component{
         super(props);
         this.state = {
             apiToken: '',
-            saveApiToken: this.saveApiToken,
+            loadApiToken: this.loadApiToken,
+            checkApiToken: this.checkApiToken,
             userData: [],
             networkError: false,
             fetchApi: this.fetchApi,
@@ -29,15 +30,16 @@ export class ApiProvider extends React.Component{
     }
 
     componentDidMount() {
-        this.saveApiToken();
+        this.loadApiToken();
     }
     
-    saveApiToken = () => {
+    loadApiToken = () => {
         const token = window.localStorage.getItem('apiToken');
         if (token) {
             this.setState({
                 apiToken: token,
             })
+            this.checkApiToken(token);
         }
     }
 
@@ -69,6 +71,36 @@ export class ApiProvider extends React.Component{
             this.setState({
                 networkError: true,
             })
+        }
+    }
+
+    checkApiToken = async ( token ) => {
+        
+        const response = await this.fetchApi('/token', 'POST', { token });
+    
+        if (response == null) {
+            this.setState({
+                networkError: true,
+            })
+        }
+        else if(!response.ok){
+            throw new Error(response.statusText);
+        }
+        else{
+            const data = await response.json();
+            if(data.message) {
+                window.localStorage.removeItem('apiToken');
+                this.setState({
+                    apiToken: null,
+                    userData: [],
+                    networkError: false,
+                })
+            }
+            else{
+                this.setState({
+                    userData: data,
+                })
+            }
         }
     }
 
@@ -142,6 +174,8 @@ export class ApiProvider extends React.Component{
     }
 
     postUserRating = async ( user_id, user_id_rated, rating ) => {
+
+        console.log(JSON.stringify({ user_id, user_id_rated, rating }));
 
         const response = await this.fetchApi('/api/encounters', 'POST', { user_id, user_id_rated, rating });
 

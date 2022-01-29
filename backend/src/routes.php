@@ -99,11 +99,21 @@ return function(App $app){
             return $response->withHeader('Content-Type', 'application/json')
                 ->withStatus(200);
         }
-        else{
-            $response->getBody()->write(json_encode($tokenData));
-            return $response->withHeader('Content-Type', 'application/json')
-                ->withStatus(200);
-        }
+
+        $user = Token::where('token', $tokenData['token'])->select('user_id')->get();
+        $userData = Users::where('user_id', $user[0]->user_id)->get();
+
+        $response->getBody()->write(json_encode([
+            "user_id" => $userData[0]->user_id,
+            "user_name" => $userData[0]->user_name,
+            "user_gender" => $userData[0]->user_gender,
+            "user_gender_preference" => $userData[0]->user_gender_preference,
+            "user_age" => $userData[0]->user_age,
+            "user_age_preference" => $userData[0]->user_age_preference,
+            "user_description" => $userData[0]->user_description,
+        ]));
+
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
     });
 
     $app->group("/api", function(RouteCollectorProxy $group){
