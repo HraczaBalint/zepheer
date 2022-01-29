@@ -16,6 +16,7 @@ export class ApiProvider extends React.Component{
         super(props);
         this.state = {
             apiToken: '',
+            saveApiToken: this.saveApiToken,
             userData: [],
             networkError: false,
             fetchApi: this.fetchApi,
@@ -23,6 +24,19 @@ export class ApiProvider extends React.Component{
             getUsers: this.getUsers,
             postUserRating: this.postUserRating,
         }        
+    }
+
+    componentDidMount() {
+        this.saveApiToken();
+    }
+    
+    saveApiToken = () => {
+        const token = window.localStorage.getItem('apiToken');
+        if (token) {
+            this.setState({
+                apiToken: token,
+            })
+        }
     }
 
     async fetchApi(endpoint, method = 'GET', data = null) {
@@ -74,6 +88,7 @@ export class ApiProvider extends React.Component{
                 throw new Error(data.message);
             }
             else{
+                window.localStorage.setItem('apiToken', data.token);
                 this.setState({
                     apiToken: data.token,
                     userData: data,
