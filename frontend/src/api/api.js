@@ -141,9 +141,9 @@ export class ApiProvider extends React.Component{
         }
     }
 
-    postUserRating = async (newRating) => {
+    postUserRating = async ( user_id, user_id_rated, rating ) => {
 
-        const response = await this.fetchApi('/api/encounters', 'POST', newRating);
+        const response = await this.fetchApi('/api/encounters', 'POST', { user_id, user_id_rated, rating });
 
         if (response == null) {
             this.setState({

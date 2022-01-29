@@ -91,6 +91,21 @@ return function(App $app){
                 ->withStatus(200);
     });
 
+    $app->post('/token', function(Request $request, Response $response, $args){
+        $tokenData = json_decode($request->getBody(), true);
+
+        if (!Token::where('token', $tokenData['token'])->count('token')) {
+            $response->getBody()->write(json_encode(["message" => "Invalid token!"]));
+            return $response->withHeader('Content-Type', 'application/json')
+                ->withStatus(200);
+        }
+        else{
+            $response->getBody()->write(json_encode($tokenData));
+            return $response->withHeader('Content-Type', 'application/json')
+                ->withStatus(200);
+        }
+    });
+
     $app->group("/api", function(RouteCollectorProxy $group){
     
         $group->get('/users', function (Request $request, Response $response, $args) {

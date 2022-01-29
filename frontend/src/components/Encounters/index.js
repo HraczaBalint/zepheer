@@ -61,13 +61,7 @@ export default class Encounters extends React.Component{
         const { encounterProfiles, ep_index } = this.state;
 
         try {
-            const newRating = {
-                user_id: this.context.userData.user_id,
-                user_id_rated: encounterProfiles[ep_index].user_id,
-                rating: rating,
-            }
-
-            await this.context.postUserRating(newRating);
+            await this.context.postUserRating(this.context.userData.user_id, encounterProfiles[ep_index].user_id, rating);
 
             if (ep_index < encounterProfiles.length - 1) {
             
