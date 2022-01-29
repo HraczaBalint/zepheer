@@ -21,9 +21,11 @@ export default class LoginForm extends React.Component {
         this.setState({[name]: value});
     }
     
-    handleLogin = async () => {
+    handleLogin = async (e) => {
 
         const { email, password } = this.state;
+
+        e.preventDefault();
 
         if (email.trim() !== "" && password.trim() !== "") {
             try {
@@ -42,11 +44,13 @@ export default class LoginForm extends React.Component {
 
         return (
             <>
-                <label>Email</label><br />
-                <input name="email" type="email" value={email} onChange={this.handleChange} required />
-                <label>Password</label><br />
-                <input name="password" type="password" value={password} onChange={this.handleChange} required />
-                <button type="button" onClick={this.handleLogin}>Submit</button>
+                <form onSubmit={this.handleLogin}>
+                    <label>Email</label><br />
+                    <input name="email" type="email" value={email} onChange={this.handleChange} required />
+                    <label>Password</label><br />
+                    <input name="password" type="password" value={password} onChange={this.handleChange} required />
+                    <button type="submit">Login</button>
+                </form>
                 { loginErrorMessage ? <p>{ loginErrorMessage }</p> : null }
             </>
         );

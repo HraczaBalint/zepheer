@@ -5,6 +5,7 @@ export const ApiContext = React.createContext({
     userData: [],
     networkError: false,
     login: (user_email, user_password) => {},
+    register: (user_gender, user_name, user_email, user_password) => {},
     getUsers: () => {},
     postUserRating: () => {},
 
@@ -21,6 +22,7 @@ export class ApiProvider extends React.Component{
             networkError: false,
             fetchApi: this.fetchApi,
             login: this.login,
+            register: this.register,
             getUsers: this.getUsers,
             postUserRating: this.postUserRating,
         }        
@@ -70,6 +72,29 @@ export class ApiProvider extends React.Component{
         }
     }
 
+    register = async ( user_gender, user_name, user_email, user_password ) => {
+
+        const response = await this.fetchApi('/register', 'POST', { user_gender, user_name, user_email, user_password });
+
+        if (response == null) {
+            this.setState({
+                networkError: true,
+            })
+        }
+        else if(!response.ok){
+            throw new Error(response.statusText);
+        }
+        else{
+            const data = await response.json();
+            if(data.message) {
+                throw new Error(data.message);
+            }
+            else{
+                this.login( user_email, user_password );
+            }
+        }
+    }
+
     login = async ( user_email, user_password ) => {
             
         const response = await this.fetchApi('/login', 'POST', { user_email, user_password });
@@ -95,7 +120,7 @@ export class ApiProvider extends React.Component{
                 });
             }
         }
-    }   
+    } 
 
     getUsers = async () => {
 

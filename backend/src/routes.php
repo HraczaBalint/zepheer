@@ -36,8 +36,17 @@ return function(App $app){
     $app->post('/register', function(Request $request, Response $response, $args){
         $userData = json_decode($request->getBody(), true);
         $users = new Users();
+        $users->user_gender = $userData['user_gender'];
+        $users->user_name = $userData['user_name'];
         $users->user_email = $userData['user_email'];
         $users->user_password = md5($userData['user_password']);
+
+        if (Users::where('user_email', $userData['user_email'])->count('user_email')) {
+            $response->getBody()->write(json_encode(["message" => "Email address already exists!"]));
+            return $response->withHeader('Content-Type', 'application/json')
+                ->withStatus(200);
+        }
+
         $users->save();
         $response->getBody()->write($users->toJson());
         return $response->withHeader('Content-Type', 'application/json')
