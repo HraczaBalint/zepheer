@@ -14,7 +14,7 @@ export default class Pictures extends React.Component{
         <>
             <div className='pictures'>
                 {
-                    pictures_splitted.map((picture) => <Picture src={picture} />)
+                    pictures_splitted.map((picture) => <Picture key={picture} src={picture} />)
                 }
             </div>
         </>

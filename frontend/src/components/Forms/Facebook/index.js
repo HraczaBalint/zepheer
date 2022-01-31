@@ -1,6 +1,5 @@
 import React from 'react';
 import FacebookLogin from 'react-facebook-login';
-import { Navigate } from 'react-router-dom';
 import { ApiContext } from '../../../api/api';
 
 export default class Facebook extends React.Component {
