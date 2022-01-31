@@ -7,19 +7,18 @@ import ModalWindow from "../ModalWindow";
 
 export default class Starter extends React.Component{
 
-    constructor(props) {
-        super(props);
-        this.setState = {
-            name: '',
-        }
-    }
-
     render() {
         return(
             <>
                 <div className="starter_wrapper">
-                    <ModalWindow name={"Sign in"} facebook={<Facebook />} form={<LoginForm />} />
-                    <ModalWindow name={"Join"} facebook={<Facebook />} form={<RegisterForm />} />
+                    <ModalWindow name={"Sign in"}>
+                        <Facebook/>
+                        <LoginForm/>
+                    </ModalWindow>
+                    <ModalWindow name={"Join"}>
+                        <Facebook/>
+                        <RegisterForm/>
+                    </ModalWindow>
                 </div>
             </>
         )

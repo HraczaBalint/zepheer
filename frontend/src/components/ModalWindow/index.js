@@ -35,8 +35,7 @@ export default class ModalWindow extends React.Component {
                     >
                     <div>
                         <button onClick={this.handleCloseModal}>x</button>
-                        {this.props.facebook}
-                        {this.props.form}
+                        { this.props.children }
                     </div>
                     </ReactModal>
                 </div>
