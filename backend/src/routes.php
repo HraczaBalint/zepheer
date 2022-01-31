@@ -116,6 +116,19 @@ return function(App $app){
         return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
     });
 
+    $app->delete('/logout/{user_id}', function(Request $request, Response $response, $args){
+        if(!is_numeric($args['user_id']) || $args['user_id'] <= 0){
+            $output = json_encode(['error'=>'Az ID-nek pozitív egész számnak kell lennie!']);
+            $response->getBody()->write($output);
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
+        }
+
+        $token = Token::where('user_id', $args['user_id']);
+    
+        $token->delete();
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(204);
+    });
+
     $app->group("/api", function(RouteCollectorProxy $group){
     
         $group->get('/users', function (Request $request, Response $response, $args) {

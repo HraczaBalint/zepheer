@@ -3,6 +3,7 @@ import Pictures from '../Pictures';
 import Buttons from '../Buttons';
 import Description from '../Description';
 import { ApiContext } from '../../api/api';
+import Logout from '../Forms/Logout';
 
 
 export default class Encounters extends React.Component{
@@ -125,6 +126,7 @@ export default class Encounters extends React.Component{
                     on_click={this.handleNewRating}
                 />
             </div>
+            <Logout/>
         </>
         )
     }

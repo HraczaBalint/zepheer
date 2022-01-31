@@ -7,6 +7,7 @@ export const ApiContext = React.createContext({
     login: (user_email, user_password) => {},
     register: (user_gender, user_name, user_email, user_password) => {},
     facebook: (user_gender, user_name, user_email, user_password) => {},
+    logout: () => {},
     getUsers: () => {},
     postUserRating: () => {},
 
@@ -26,6 +27,7 @@ export class ApiProvider extends React.Component{
             login: this.login,
             register: this.register,
             facebook: this.facebook,
+            logout: this.logout,
             getUsers: this.getUsers,
             postUserRating: this.postUserRating,
         }        
@@ -104,6 +106,16 @@ export class ApiProvider extends React.Component{
                 })
             }
         }
+    }
+
+    logout = async () => {
+
+        await this.fetchApi(`/logout/${this.state.userData.user_id}`, 'DELETE', null);
+
+        this.setState({
+            apiToken: null,
+            userData: {},
+        })
     }
 
     facebook = async ( user_gender, user_name, user_email, user_password ) => {
