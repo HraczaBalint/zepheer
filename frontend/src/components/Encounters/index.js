@@ -107,7 +107,7 @@ export default class Encounters extends React.Component{
                         </div>
                     </div>
                 </>
-                )
+            )
         };
 
         return(

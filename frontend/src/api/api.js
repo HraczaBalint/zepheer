@@ -6,6 +6,7 @@ export const ApiContext = React.createContext({
     networkError: false,
     login: (user_email, user_password) => {},
     register: (user_gender, user_name, user_email, user_password) => {},
+    facebook: (user_gender, user_name, user_email, user_password) => {},
     getUsers: () => {},
     postUserRating: () => {},
 
@@ -24,6 +25,7 @@ export class ApiProvider extends React.Component{
             fetchApi: this.fetchApi,
             login: this.login,
             register: this.register,
+            facebook: this.facebook,
             getUsers: this.getUsers,
             postUserRating: this.postUserRating,
         }        
@@ -104,6 +106,23 @@ export class ApiProvider extends React.Component{
         }
     }
 
+    facebook = async ( user_gender, user_name, user_email, user_password ) => {
+
+        const response = await this.fetchApi('/register', 'POST', { user_gender, user_name, user_email, user_password });
+
+        if (response == null) {
+            this.setState({
+                networkError: true,
+            })
+        }
+        else if(!response.ok){
+            throw new Error(response.statusText);
+        }
+        else{
+            this.login(user_email, user_password);
+        }
+    }
+
     register = async ( user_gender, user_name, user_email, user_password ) => {
 
         const response = await this.fetchApi('/register', 'POST', { user_gender, user_name, user_email, user_password });
@@ -122,7 +141,7 @@ export class ApiProvider extends React.Component{
                 throw new Error(data.message);
             }
             else{
-                this.login( user_email, user_password );
+                this.login(user_email, user_password);
             }
         }
     }
@@ -174,8 +193,6 @@ export class ApiProvider extends React.Component{
     }
 
     postUserRating = async ( user_id, user_id_rated, rating ) => {
-
-        console.log(JSON.stringify({ user_id, user_id_rated, rating }));
 
         const response = await this.fetchApi('/api/encounters', 'POST', { user_id, user_id_rated, rating });
 
