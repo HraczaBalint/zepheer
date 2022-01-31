@@ -112,6 +112,7 @@ export class ApiProvider extends React.Component{
 
         await this.fetchApi(`/logout/${this.state.userData.user_id}`, 'DELETE', null);
 
+        window.localStorage.removeItem('apiToken');
         this.setState({
             apiToken: null,
             userData: {},

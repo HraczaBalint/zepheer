@@ -13,23 +13,23 @@ export default class Facebook extends React.Component {
         }
     }
 
-    handleFacebookData = async (data) => {
+    responseFacebook = async (response) => {
 
-        if (data.accessToken) {
+        if (response.accessToken) {
 
             let gender = null;
 
-            if (data.gender === "female") {
+            if (response.gender === "female") {
                 gender = 0;
             }
-            else if (data.gender === "male") {
+            else if (response.gender === "male") {
                 gender = 1;
             }
             else{
                 gender = 2;
             }
             
-            await this.context.facebook(gender, data.first_name, data.email, data.userID);
+            await this.context.facebook(gender, response.first_name, response.email, response.userID);
         }
     }
       
@@ -43,7 +43,7 @@ export default class Facebook extends React.Component {
                         autoLoad={false}
                         fields="first_name, email, picture, gender"
                         scope="public_profile, email"
-                        callback={this.handleFacebookData}
+                        callback={this.responseFacebook}
                     />
                 </div>
             </>
