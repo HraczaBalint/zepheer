@@ -55,11 +55,11 @@ export default class RegisterForm extends React.Component {
                         <option value="2">Other</option>
                     </select><br />
                     <label>First name:</label><br />
-                    <input name="name" type="text" value={name} onChange={this.handleChange} required />
-                    <label>Email</label><br />
-                    <input name="email" type="email" value={email} onChange={this.handleChange} required />
-                    <label>Password</label><br />
-                    <input name="password" type="password" value={password} onChange={this.handleChange} required />
+                    <input name="name" type="text" value={name} onChange={this.handleChange} required /><br />
+                    <label>Email:</label><br />
+                    <input name="email" type="email" value={email} onChange={this.handleChange} required /><br />
+                    <label>Password:</label><br />
+                    <input name="password" type="password" value={password} onChange={this.handleChange} required /><br />
                     <button type="submit">Register</button>
                 </form>
                 { registerErrorMessage ? <p>{ registerErrorMessage }</p> : null }

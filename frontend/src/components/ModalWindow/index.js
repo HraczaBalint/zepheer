@@ -34,15 +34,12 @@ export default class ModalWindow extends React.Component {
 
                 <Modal show={this.state.showModal} onHide={this.handleCloseModal}>
                     <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
+                    <Modal.Title>{ this.props.name }</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>{ this.props.children }</Modal.Body>
                     <Modal.Footer>
                     <Button variant="secondary" onClick={this.handleCloseModal}>
                         Close
-                    </Button>
-                    <Button variant="primary" onClick={this.handleCloseModal}>
-                        Save Changes
                     </Button>
                     </Modal.Footer>
                 </Modal>
