@@ -1,9 +1,10 @@
 import React from "react";
+import { Button, Modal } from "react-bootstrap";
 import ReactModal from "react-modal";
 
 export default class ModalWindow extends React.Component {
-    constructor () {
-        super();
+    constructor (props) {
+        super(props);
         this.state = {
             showModal: false,
             handleOpenModal: this.handleOpenModal,
@@ -26,19 +27,25 @@ export default class ModalWindow extends React.Component {
     render () {
         return (
             <>
-                <div className="modal_wrapper">
-                    <button className="modal_opener" onClick={this.handleOpenModal}>{this.props.name}</button>
-                    <ReactModal 
-                        isOpen={this.state.showModal}
-                        onRequestClose={this.handleCloseModal}
-                        className="modal"
-                    >
-                    <div>
-                        <button onClick={this.handleCloseModal}>x</button>
-                        { this.props.children }
-                    </div>
-                    </ReactModal>
-                </div>
+
+                <Button variant="primary" onClick={this.handleOpenModal}>
+                    { this.props.name }
+                </Button>
+
+                <Modal show={this.state.showModal} onHide={this.handleCloseModal}>
+                    <Modal.Header closeButton>
+                    <Modal.Title>Modal heading</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>{ this.props.children }</Modal.Body>
+                    <Modal.Footer>
+                    <Button variant="secondary" onClick={this.handleCloseModal}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={this.handleCloseModal}>
+                        Save Changes
+                    </Button>
+                    </Modal.Footer>
+                </Modal>
             </>
         )
     }

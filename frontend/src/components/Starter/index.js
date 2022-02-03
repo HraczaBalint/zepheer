@@ -10,7 +10,7 @@ export default class Starter extends React.Component{
     render() {
         return(
             <>
-                <div className="starter_wrapper">
+                <div>
                     <ModalWindow name={"Sign in"}>
                         <Facebook/>
                         <LoginForm/>

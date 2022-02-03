@@ -4,6 +4,7 @@ import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 import { ApiProvider } from './api/api';
 import { BrowserRouter } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.css';
 
 ReactDOM.render(
   <React.StrictMode>
