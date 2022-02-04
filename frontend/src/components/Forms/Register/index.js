@@ -1,4 +1,5 @@
 import React from "react";
+import { Alert, Button, Form } from "react-bootstrap";
 import { ApiContext } from "../../../api/api";
 
 export default class RegisterForm extends React.Component {
@@ -46,23 +47,38 @@ export default class RegisterForm extends React.Component {
 
         return (
             <>
-                <form onSubmit={this.handleRegister}>
-                    <label>Gender:</label><br />
-                    <select name="gender" value={gender} onChange={this.handleChange} required>
-                        <option value="" >--Choose--</option>
-                        <option value="0">Female</option>
-                        <option value="1">Male</option>
-                        <option value="2">Other</option>
-                    </select><br />
-                    <label>First name:</label><br />
-                    <input name="name" type="text" value={name} onChange={this.handleChange} required /><br />
-                    <label>Email:</label><br />
-                    <input name="email" type="email" value={email} onChange={this.handleChange} required /><br />
-                    <label>Password:</label><br />
-                    <input name="password" type="password" value={password} onChange={this.handleChange} required /><br />
-                    <button type="submit">Register</button>
-                </form>
-                { registerErrorMessage ? <p>{ registerErrorMessage }</p> : null }
+                <Form onSubmit={this.handleRegister}>
+                    <Form.Group className="mt-5 mb-3">
+                        <Alert show={ registerErrorMessage } variant="danger">
+                        <Alert.Heading>{ registerErrorMessage ? <p>{ registerErrorMessage }</p> : null }</Alert.Heading>
+                        <p>Check the input fields.</p>
+                        </Alert>
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Gender:</Form.Label>
+                        <Form.Select name="gender" value={gender} onChange={this.handleChange} required>
+                            <option value="" >--Choose--</option>
+                            <option value="0">Female</option>
+                            <option value="1">Male</option>
+                            <option value="2">Other</option>
+                        </Form.Select>
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>First name:</Form.Label>
+                        <Form.Control name="name" value={name} type="text" onChange={this.handleChange}  maxLength={15} required/>
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Email address:</Form.Label>
+                        <Form.Control name="email" value={email} type="email" onChange={this.handleChange} placeholder="name@example.com" maxLength={30} required/>
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Password:</Form.Label>
+                        <Form.Control name="password" value={password} type="password" onChange={this.handleChange} minLength={6} maxLength={15} required/>
+                    </Form.Group>
+                    <Form.Group>
+                        <Button type="submit">Register</Button>
+                    </Form.Group>
+                </Form>
             </>
         );
     }
