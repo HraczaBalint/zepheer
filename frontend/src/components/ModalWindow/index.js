@@ -7,17 +7,12 @@ export default class ModalWindow extends React.Component {
         super(props);
         this.state = {
             showModal: false,
-            handleOpenModal: this.handleOpenModal,
-            handleCloseModal: this.handleCloseModal,
+            handleModal: this.handleModal,
         };
     }
     
-    handleOpenModal = () => {
-        this.setState({ showModal: true });
-    }
-    
-    handleCloseModal = () => {
-        this.setState({ showModal: false });
+    handleModal = () => {
+        this.setState({ showModal: !this.state.showModal });
     }
 
     componentDidMount() {
@@ -27,18 +22,17 @@ export default class ModalWindow extends React.Component {
     render () {
         return (
             <>
-
-                <Button variant="primary" onClick={this.handleOpenModal}>
+                <Button variant="primary" onClick={this.handleModal}>
                     { this.props.name }
                 </Button>
 
-                <Modal show={this.state.showModal} onHide={this.handleCloseModal}>
+                <Modal show={this.state.showModal} onHide={this.handleModal}>
                     <Modal.Header closeButton>
                     <Modal.Title>{ this.props.name }</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>{ this.props.children }</Modal.Body>
                     <Modal.Footer>
-                    <Button variant="secondary" onClick={this.handleCloseModal}>
+                    <Button variant="secondary" onClick={this.handleModal}>
                         Close
                     </Button>
                     </Modal.Footer>
