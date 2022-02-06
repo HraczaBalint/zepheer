@@ -22,7 +22,7 @@ export default class ModalWindow extends React.Component {
     render () {
         return (
             <>
-                <Button variant="primary" onClick={this.handleModal}>
+                <Button className="modal_opener" variant="primary" onClick={this.handleModal}>
                     { this.props.name }
                 </Button>
 
