@@ -4,6 +4,8 @@ import Buttons from '../Buttons';
 import Description from '../Description';
 import { ApiContext } from '../../api/api';
 import Logout from '../Forms/Logout';
+import DateCalculator from '../Moment';
+
 
 
 export default class Encounters extends React.Component{
@@ -37,7 +39,7 @@ export default class Encounters extends React.Component{
                         return {
                             user_id: profile.user_id,
                             user_name: profile.user_name,
-                            user_age: profile.user_age,
+                            user_age: <DateCalculator date={profile.user_birthday} />,
                             user_description: profile.user_description,
                             pictures: [profile.picture_name],
                         };

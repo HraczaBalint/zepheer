@@ -119,9 +119,9 @@ export class ApiProvider extends React.Component{
         })
     }
 
-    facebook = async ( user_gender, user_name, user_email, user_password ) => {
+    facebook = async ( user_gender, user_name, user_birthday, user_email, user_password ) => {
 
-        const response = await this.fetchApi('/register', 'POST', { user_gender, user_name, user_email, user_password });
+        const response = await this.fetchApi('/register', 'POST', { user_gender, user_name, user_birthday, user_email, user_password });
 
         if (response == null) {
             this.setState({
@@ -136,9 +136,9 @@ export class ApiProvider extends React.Component{
         }
     }
 
-    register = async ( user_gender, user_name, user_email, user_password ) => {
+    register = async ( user_gender, user_name, user_birthday, user_email, user_password ) => {
 
-        const response = await this.fetchApi('/register', 'POST', { user_gender, user_name, user_email, user_password });
+        const response = await this.fetchApi('/register', 'POST', { user_gender, user_name, user_birthday, user_email, user_password });
 
         if (response == null) {
             this.setState({

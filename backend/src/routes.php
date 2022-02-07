@@ -38,6 +38,7 @@ return function(App $app){
         $users = new Users();
         $users->user_gender = $userData['user_gender'];
         $users->user_name = $userData['user_name'];
+        $users->user_birthday = $userData['user_birthday'];
         $users->user_email = $userData['user_email'];
         $users->user_password = md5($userData['user_password']);
 

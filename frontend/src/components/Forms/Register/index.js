@@ -11,6 +11,7 @@ export default class RegisterForm extends React.Component {
         this.state = {
             gender: '',
             name: '',
+            birthday: '',
             email: '',
             password: '',
             handleChange: this.handleChange,
@@ -26,13 +27,13 @@ export default class RegisterForm extends React.Component {
     
     handleRegister = async (e) => {
 
-        const { gender, name, email, password } = this.state;
+        const { gender, name, birthday, email, password } = this.state;
 
         e.preventDefault();        
 
         if (gender !== "" && name.trim() !== "" && email.trim() !== "" && password.trim() !== "") {
             try {
-                await this.context.register(gender, name, email, password);
+                await this.context.register(gender, name, birthday, email, password);
             } catch (error) {
                 this.setState({
                     registerErrorMessage: error.message,
@@ -43,7 +44,7 @@ export default class RegisterForm extends React.Component {
     
     render() {
 
-        const { gender, name, email, password, registerErrorMessage } = this.state;
+        const { gender, name, birthday, email, password, registerErrorMessage } = this.state;
 
         return (
             <>
@@ -66,6 +67,10 @@ export default class RegisterForm extends React.Component {
                     <Form.Group className="mb-3">
                         <Form.Label>First name:</Form.Label>
                         <Form.Control name="name" value={name} type="text" onChange={this.handleChange}  maxLength={15} required/>
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Birth date:</Form.Label>
+                        <Form.Control name="birthday" value={birthday} type="date" onChange={this.handleChange} required/>
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label>Email address:</Form.Label>

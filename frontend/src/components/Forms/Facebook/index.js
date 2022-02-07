@@ -28,8 +28,8 @@ export default class Facebook extends React.Component {
             else{
                 gender = 2;
             }
-            
-            await this.context.facebook(gender, response.first_name, response.email, response.userID);
+
+            await this.context.facebook(gender, response.first_name, response.birthday, response.email, "");
         }
     }
       
@@ -41,8 +41,8 @@ export default class Facebook extends React.Component {
                     <FacebookLogin
                         appId="470923207936372"
                         autoLoad={false}
-                        fields="first_name, email, picture, gender"
-                        scope="public_profile, email"
+                        fields="first_name, email, picture, gender, birthday"
+                        scope="public_profile, email, user_birthday"
                         callback={this.responseFacebook}
                     />
                 </div>
