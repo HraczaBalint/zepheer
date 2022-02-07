@@ -16,7 +16,7 @@ export default class Profile extends React.Component{
         return(
         <>
             <div>
-                
+                profil
             </div>
         </>
         )

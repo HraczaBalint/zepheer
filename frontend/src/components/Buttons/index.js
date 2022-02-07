@@ -11,10 +11,8 @@ export default class Buttons extends React.Component{
 
         return(
         <>
-            <div className='buttons'>
-                <Button on_click={on_click} text="Dislike" value={0} />
-                <Button on_click={on_click} text="Like" value={1} />
-            </div>
+            <Button on_click={on_click} text="Dislike" value={0} />
+            <Button on_click={on_click} text="Like" value={1} />
         </>
         )
     }

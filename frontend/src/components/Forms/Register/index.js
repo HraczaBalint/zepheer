@@ -14,6 +14,7 @@ export default class RegisterForm extends React.Component {
             birthday: '',
             email: '',
             password: '',
+            status: 20,
             handleChange: this.handleChange,
             handleRegister: this.handleRegister,
             registerErrorMessage: null,
@@ -27,13 +28,15 @@ export default class RegisterForm extends React.Component {
     
     handleRegister = async (e) => {
 
-        const { gender, name, birthday, email, password } = this.state;
+        const { gender, name, birthday, email, password, status } = this.state;
 
         e.preventDefault();        
 
         if (gender !== "" && name.trim() !== "" && email.trim() !== "" && password.trim() !== "") {
             try {
-                await this.context.register(gender, name, birthday, email, password);
+
+                
+                await this.context.register(gender, name, birthday, email, password, status);
             } catch (error) {
                 this.setState({
                     registerErrorMessage: error.message,

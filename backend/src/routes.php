@@ -33,6 +33,41 @@ return function(App $app){
             ->withStatus(401);
     });
 
+    $app->post('/facebook', function(Request $request, Response $response, $args){
+        $userData = json_decode($request->getBody(), true);
+        $users = new Users();
+        $users->user_gender = $userData['user_gender'];
+        $users->user_name = $userData['user_name'];
+        $users->user_birthday = $userData['user_birthday'];
+        $users->user_email = $userData['user_email'];
+        $users->user_status = $userData['user_status'];
+        if (!Users::where('user_email', $userData['user_email'])->count('user_email')) {
+            $users->save();
+        }
+
+        if (Users::where('user_email', $userData['user_email'])->count('user_email')) {
+            $users = Users::where('user_email', $userData['user_email'])->firstOrFail();
+        }
+        $token = new Token();
+        $token->user_id = $users->user_id;
+        $token->token = bin2hex(random_bytes(64));
+        $token->save();
+        
+        $response->getBody()->write(json_encode([
+            "user_id" => $users->user_id,
+            "user_name" => $users->user_name,
+            "user_gender" => $users->user_gender,
+            "user_gender_preference" => $users->user_gender_preference,
+            "user_age" => $users->user_age,
+            "user_age_preference" => $users->user_age_preference,
+            "user_description" => $users->user_description,
+            "user_status" => $users->user_status,
+            "token" => $token->token,
+        ]));
+
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
+    });
+
     $app->post('/register', function(Request $request, Response $response, $args){
         $userData = json_decode($request->getBody(), true);
         $users = new Users();
@@ -41,6 +76,7 @@ return function(App $app){
         $users->user_birthday = $userData['user_birthday'];
         $users->user_email = $userData['user_email'];
         $users->user_password = md5($userData['user_password']);
+        $users->user_status = $userData['user_status'];
 
         if (Users::where('user_email', $userData['user_email'])->count('user_email')) {
             $response->getBody()->write(json_encode(["message" => "Email address already exists!"]));
@@ -86,6 +122,7 @@ return function(App $app){
             "user_age" => $users->user_age,
             "user_age_preference" => $users->user_age_preference,
             "user_description" => $users->user_description,
+            "user_status" => $users->user_status,
             "token" => $token->token,
         ]));
         return $response->withHeader('Content-Type', 'application/json')

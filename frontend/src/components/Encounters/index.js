@@ -4,9 +4,9 @@ import Buttons from '../Buttons';
 import Description from '../Description';
 import { ApiContext } from '../../api/api';
 import Logout from '../Forms/Logout';
-import DateCalculator from '../Moment';
-
-
+import AgeCalculator from '../Moment/AgeCalculator';
+import { Col, Container, Row } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 
 export default class Encounters extends React.Component{
 
@@ -39,7 +39,7 @@ export default class Encounters extends React.Component{
                         return {
                             user_id: profile.user_id,
                             user_name: profile.user_name,
-                            user_age: <DateCalculator date={profile.user_birthday} />,
+                            user_age: <AgeCalculator date={profile.user_birthday} />,
                             user_description: profile.user_description,
                             pictures: [profile.picture_name],
                         };
@@ -115,20 +115,38 @@ export default class Encounters extends React.Component{
 
         return(
         <>
-            <div className='encounters'>
-                <Description
-                    user_name={encounterProfiles[ep_index].user_name}
-                    user_age={encounterProfiles[ep_index].user_age}
-                    user_description={encounterProfiles[ep_index].user_description}
-                />
-                <Pictures
-                    pictures={encounterProfiles[ep_index].pictures}
-                />
-                <Buttons
-                    on_click={this.handleNewRating}
-                />
-            </div>
-            <Logout/>
+            <Container>
+                <Link to="/app/profile">{this.context.userData.user_name}</Link>
+            </Container>
+            <Container className="d-flex align-items-center min-vh-100">
+                <Container>
+                    <Row className="border border-dark rounded">
+                        <Col xs={12} md={7} className="p-0">
+                            <Pictures
+                            pictures={encounterProfiles[ep_index].pictures}
+                             />
+                        </Col>
+                        <Col xs={12} md={5} className="p-0">
+                            <Description
+                            user_name={encounterProfiles[ep_index].user_name}
+                            user_age={encounterProfiles[ep_index].user_age}
+                            user_description={encounterProfiles[ep_index].user_description}
+                            />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Buttons
+                            on_click={this.handleNewRating}
+                            />
+                        </Col>
+                    </Row>
+                    
+                    <Logout/>
+                </Container>
+            </Container>
+
+            
         </>
         )
     }

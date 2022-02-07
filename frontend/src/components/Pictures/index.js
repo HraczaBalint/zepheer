@@ -12,11 +12,7 @@ export default class Pictures extends React.Component{
 
         return(
         <>
-            <div className='pictures'>
-                {
-                    pictures_splitted.map((picture) => <Picture key={picture} src={picture} />)
-                }
-            </div>
+            {pictures_splitted.map((picture) => <Picture key={picture} src={picture} />)}
         </>
         )
     }

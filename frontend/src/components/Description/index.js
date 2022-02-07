@@ -9,10 +9,8 @@ export default class Description extends React.Component{
 
         return(
         <>
-            <div className='description'>
-                <h2>{user_name}, {user_age}</h2>
-                <p>{user_description}</p>
-            </div>
+            <h2>{user_name}, {user_age}</h2>
+            <p>{user_description}</p>
         </>
         )
     }
