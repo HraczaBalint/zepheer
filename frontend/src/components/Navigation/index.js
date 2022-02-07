@@ -1,5 +1,7 @@
 import React from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
+import LoginNotRequired from '../../api/loginNotRequired';
+import { Link } from 'react-router-dom';
 
 import GitHubLogo from "../../assets/github_logo.png";
 import DiscordLogo from "../../assets/discord_logo.png";
@@ -12,13 +14,15 @@ export default class Navigation extends React.Component{
             <>
                 <Navbar expand="sm" bg="dark" variant="dark">
                 <Container>
-                        <Navbar.Brand href="#home"><img src={Icon} alt="Zepheer logo" width="25px" height="25px"/>Zepheer</Navbar.Brand>
+                        <Navbar.Brand><img src={Icon} alt="Zepheer logo" width="25px" height="25px"/>Zepheer</Navbar.Brand>
                         <Navbar.Toggle aria-controls="navbar" />
                         <Navbar.Collapse id="navbar">
                             <Nav className="me-auto">
-                                <Nav.Link href="#home">Home</Nav.Link>
-                                <Nav.Link href="#" disabled>Learn more</Nav.Link>
-                                <Nav.Link href="#" disabled>Support us</Nav.Link>
+                                <LoginNotRequired>
+                                        <Nav.Link as={Link} to="/home">Home</Nav.Link>
+                                        <Nav.Link as={Link} to="/learn-more">Learn more</Nav.Link>
+                                        <Nav.Link disabled>Support us</Nav.Link>
+                                </LoginNotRequired>
                             </Nav>
                             <Nav>
                                 <Nav.Link className="mx-2" href="https://github.com/HraczaBalint/zepheer" target="_blank"><img src={GitHubLogo} alt="Github logo" width="25px" height="25px"/></Nav.Link>

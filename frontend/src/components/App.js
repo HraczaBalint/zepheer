@@ -25,8 +25,9 @@ export default class App extends React.Component{
 
             <LoginNotRequired>
                 <Routes>
-                    <Route path="/get-started" element={<Starter />} />
-                    <Route path="*" element={<Navigate replace to="/get-started" />} />
+                    <Route path="/home" element={<Starter />} />
+                    <Route path="/learn-more" element={"Learn more page"} />
+                    <Route path="*" element={<Navigate replace to="/home" />} />
                 </Routes>
             </LoginNotRequired>
             
