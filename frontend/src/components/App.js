@@ -7,6 +7,7 @@ import Starter from './Starter';
 import LoginRequired from '../api/loginRequired';
 import LoginNotRequired from '../api/loginNotRequired';
 import NetworkErrorMessage from './Errors/NetworkErrorMessage';
+import Navigation from './Navigation';
 
 
 export default class App extends React.Component{
@@ -26,7 +27,7 @@ export default class App extends React.Component{
             <LoginNotRequired>
                 <Routes>
                     <Route path="/home" element={<Starter />} />
-                    <Route path="/learn-more" element={"Learn more page"} />
+                    <Route path="/learn-more" element={<Navigation/>} />
                     <Route path="*" element={<Navigate replace to="/home" />} />
                 </Routes>
             </LoginNotRequired>
