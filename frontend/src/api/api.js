@@ -8,6 +8,7 @@ export const ApiContext = React.createContext({
     register: (user_gender, user_name, user_email, user_password) => {},
     facebook: (user_gender, user_name, user_email, user_password) => {},
     logout: () => {},
+    getUser: (user_id) => {},
     getUsers: () => {},
     postUserRating: () => {},
 
@@ -18,7 +19,7 @@ export class ApiProvider extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            apiToken: '',
+            apiToken: null,
             loadApiToken: this.loadApiToken,
             checkApiToken: this.checkApiToken,
             userData: [],
@@ -28,6 +29,7 @@ export class ApiProvider extends React.Component{
             register: this.register,
             facebook: this.facebook,
             logout: this.logout,
+            getUser: this.getUser,
             getUsers: this.getUsers,
             postUserRating: this.postUserRating,
         }        
@@ -189,7 +191,26 @@ export class ApiProvider extends React.Component{
                 });
             }
         }
-    } 
+    }
+
+    getUser = async ( user_id ) => {
+
+        const response = await this.fetchApi(`/api/user/${user_id}`, 'GET', null);
+
+        if (response == null) {
+            this.setState({
+                networkError: true,
+            })
+            throw new Error("Network error");
+        }
+        else if(!response.ok){
+            throw new Error(response.statusText);
+        }
+        else{
+            const data = await response.json();
+            return data;
+        }
+    }
 
     getUsers = async () => {
 

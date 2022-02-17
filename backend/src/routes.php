@@ -52,6 +52,11 @@ return function(App $app){
         $token->user_id = $users->user_id;
         $token->token = bin2hex(random_bytes(64));
         $token->save();
+
+        $user_default_pic = new Pictures();
+        $user_default_pic->picture_name = "profiles/user_default.png";
+        $user_default_pic->user_id = $users->user_id;
+        $user_default_pic->save();
         
         $response->getBody()->write(json_encode([
             "user_id" => $users->user_id,
@@ -83,9 +88,14 @@ return function(App $app){
             return $response->withHeader('Content-Type', 'application/json')
                 ->withStatus(200);
         }
-
         $users->save();
-        $response->getBody()->write($users->toJson());
+
+        $user_default_pic = new Pictures();
+        $user_default_pic->picture_name = "assets/user_default.png";
+        $user_default_pic->user_id = $users->user_id;
+        $user_default_pic->save();
+
+        $response->getBody()->write($user_default_pic->toJson());
         return $response->withHeader('Content-Type', 'application/json')
                 ->withStatus(201);
     });
@@ -171,7 +181,7 @@ return function(App $app){
     
         $group->get('/users', function (Request $request, Response $response, $args) {
             $users = Users::Join('pictures','pictures.user_id','=','users.user_id')
-            ->select('users.*', Users::raw("GROUP_CONCAT(pictures.picture_name SEPARATOR ',') AS picture_name"))
+            ->select('users.*', Users::raw("GROUP_CONCAT(pictures.picture_name SEPARATOR '|') AS picture_name"))
             ->groupBy('users.user_id')
             ->get();
             $output = $users->toJson();
@@ -181,7 +191,7 @@ return function(App $app){
                 ->withStatus(200);
         });
         
-        $group->get('/users/{user_id}', function (Request $request, Response $response, $args) {
+        $group->get('/user/{user_id}', function (Request $request, Response $response, $args) {
             if(!is_numeric($args['user_id']) || $args['user_id'] <= 0){
                 $output = json_encode(['error'=>'Az ID-nek pozitív egész számnak kell lennie!']);
                 $response->getBody()->write($output);
@@ -189,8 +199,9 @@ return function(App $app){
                     ->withHeader('Content-Type', 'application/json')
                     ->withStatus(400);
             }
-        
+
             $users = Users::find($args['user_id']);
+            $pictures = Pictures::where('user_id', $args['user_id'])->get();
             if($users === NULL){
                 $output = json_encode(['error'=>'Nincs ilyen ID-val felhasználó!']);
                 $response->getBody()->write($output);
@@ -198,8 +209,17 @@ return function(App $app){
                     ->withHeader('Content-Type', 'application/json')
                     ->withStatus(404);
             }
-        
-            $response->getBody()->write($users->toJson());
+            
+            $response->getBody()->write(json_encode([
+                "user_id" => $users->user_id,
+                "user_name" => $users->user_name,
+                "user_gender" => $users->user_gender,
+                "user_gender_preference" => $users->user_gender_preference,
+                "user_age" => $users->user_age,
+                "user_age_preference" => $users->user_age_preference,
+                "user_description" => $users->user_description,
+                "pictures" => $pictures,
+            ]));
             return $response
                 ->withHeader('Content-Type', 'application/json')
                 ->withStatus(200);

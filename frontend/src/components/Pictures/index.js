@@ -8,7 +8,7 @@ export default class Pictures extends React.Component{
 
         const { pictures } = this.props;
 
-        const pictures_splitted =  pictures[0].split(',');
+        const pictures_splitted =  pictures[0].split('|');
 
         return(
         <>

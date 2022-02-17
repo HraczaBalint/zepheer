@@ -34,8 +34,6 @@ export default class RegisterForm extends React.Component {
 
         if (gender !== "" && name.trim() !== "" && email.trim() !== "" && password.trim() !== "") {
             try {
-
-                
                 await this.context.register(gender, name, birthday, email, password, status);
             } catch (error) {
                 this.setState({

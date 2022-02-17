@@ -1,5 +1,6 @@
 import React from 'react';
 import { ApiContext } from "../../api/api";
+import UserDataForm from '../Forms/UserInfo';
 
 export default class Profile extends React.Component{
     static contextType = ApiContext;
@@ -16,7 +17,7 @@ export default class Profile extends React.Component{
         return(
         <>
             <div>
-                profil
+                <UserDataForm />
             </div>
         </>
         )
