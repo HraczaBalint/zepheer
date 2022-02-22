@@ -122,8 +122,10 @@ return function(App $app){
         $token = new Token();
         $token->user_id = $users->user_id;
         $token->token = bin2hex(random_bytes(64));
-
         $token->save();
+
+        $pictures = Pictures::where('user_id', $users->user_id)->get();
+
         $response->getBody()->write(json_encode([
             "user_id" => $users->user_id,
             "user_name" => $users->user_name,
@@ -134,6 +136,7 @@ return function(App $app){
             "user_description" => $users->user_description,
             "user_status" => $users->user_status,
             "token" => $token->token,
+            "pictures" => $pictures,
         ]));
         return $response->withHeader('Content-Type', 'application/json')
                 ->withStatus(200);
@@ -151,6 +154,8 @@ return function(App $app){
         $user = Token::where('token', $tokenData['token'])->select('user_id')->get();
         $userData = Users::where('user_id', $user[0]->user_id)->get();
 
+        $pictures = Pictures::where('user_id', $user[0]->user_id)->get();
+
         $response->getBody()->write(json_encode([
             "user_id" => $userData[0]->user_id,
             "user_name" => $userData[0]->user_name,
@@ -159,6 +164,8 @@ return function(App $app){
             "user_age" => $userData[0]->user_age,
             "user_age_preference" => $userData[0]->user_age_preference,
             "user_description" => $userData[0]->user_description,
+            "user_status" => $userData[0]->user_status,
+            "pictures" => $pictures,
         ]));
 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
@@ -211,13 +218,7 @@ return function(App $app){
             }
             
             $response->getBody()->write(json_encode([
-                "user_id" => $users->user_id,
-                "user_name" => $users->user_name,
-                "user_gender" => $users->user_gender,
-                "user_gender_preference" => $users->user_gender_preference,
-                "user_age" => $users->user_age,
-                "user_age_preference" => $users->user_age_preference,
-                "user_description" => $users->user_description,
+                "userData" => $users,
                 "pictures" => $pictures,
             ]));
             return $response
