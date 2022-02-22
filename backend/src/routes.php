@@ -43,6 +43,11 @@ return function(App $app){
         $users->user_status = $userData['user_status'];
         if (!Users::where('user_email', $userData['user_email'])->count('user_email')) {
             $users->save();
+
+            $user_default_pic = new Pictures();
+            $user_default_pic->picture_name = "profiles/user_default.png";
+            $user_default_pic->user_id = $users->user_id;
+            $user_default_pic->save();
         }
 
         if (Users::where('user_email', $userData['user_email'])->count('user_email')) {
@@ -52,11 +57,6 @@ return function(App $app){
         $token->user_id = $users->user_id;
         $token->token = bin2hex(random_bytes(64));
         $token->save();
-
-        $user_default_pic = new Pictures();
-        $user_default_pic->picture_name = "profiles/user_default.png";
-        $user_default_pic->user_id = $users->user_id;
-        $user_default_pic->save();
         
         $response->getBody()->write(json_encode([
             "user_id" => $users->user_id,
